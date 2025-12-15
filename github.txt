@@ -1,0 +1,73 @@
+package com.example.composefinalapp
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyComposeApp()
+        }
+    }
+}
+
+@Composable
+fun MyComposeApp() {
+    // 상태 변수 (Compose 핵심)
+    var name by remember { mutableStateOf("") }
+    var message by remember { mutableStateOf("버튼을 눌러주세요") }
+
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            Text(
+                text = "Compose UI 앱",
+                fontSize = 26.sp
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // 사용자 입력
+            TextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text("이름 입력") }
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // 버튼 클릭 시 상태 변경
+            Button(onClick = {
+                message = "안녕하세요, $name 님!"
+            }) {
+                Text("확인")
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // 결과 텍스트
+            Text(
+                text = message,
+                fontSize = 18.sp
+            )
+        }
+    }
+}
